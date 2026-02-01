@@ -205,3 +205,19 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+########################
+# User privacy & safety
+# (NEVER commit these)
+########################
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.db
+
+# User data
+data/
+userdata/
+storage/
