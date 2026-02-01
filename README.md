@@ -15,6 +15,16 @@ Next.js frontend (web interface)
 
 Model-agnostic and extensible by design
 
+# Privacy Promise
+
+NotoeAI is designed to run locally and never transmit user data off-device by default.
+
+- No telemetry or analytics
+- No external API calls unless explicitly configured by the user
+- No user data should ever be committed to this repository
+
+**Any deviation from this principle must be clearly documented and opt-in.**
+
 # Status
 
 🚧 Early development / experimental
