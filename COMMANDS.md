@@ -71,7 +71,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Run backend server
+### Run backend server (From project root)
+
+```bash
+./start-backend.sh
+```
+
+**or from backend directory:**
 
 ```bash
 uvicorn main:app --reload
