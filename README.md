@@ -7,13 +7,16 @@ It’s designed to run on your own hardware, stay on your local network, and giv
 
 # What it is
 
-Local AI home assistant
+Local AI home assistant with a FastAPI backend and Next.js frontend.
 
 FastAPI backend (API + assistant core)
+- Uses Ollama for local AI inference
+- Model-agnostic architecture
+- Privacy-focused (runs locally)
 
 Next.js frontend (web interface)
 
-Model-agnostic and extensible by design
+Extensible architecture
 
 # Privacy Promise
 
