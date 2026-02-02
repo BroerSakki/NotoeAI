@@ -12,7 +12,7 @@ The following must already be installed by the user:
 
 No commands in this project install system-level packages.
 
-### Auto-install (from project root)
+### Auto-install (From project root)
 ```bash
 ./install.sh
 ```
@@ -33,6 +33,18 @@ npm -v
 ```bash
 cd backend
 ```
+
+### Activate virtual environment (Inside backend)
+```bash
+source .venv/bin/activate
+```
+
+### Run backend server
+
+```bash
+uvicorn main:app --reload
+```
+
 ---
 
 ## Frontend (NextJS)
