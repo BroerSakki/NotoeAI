@@ -224,10 +224,10 @@ function ChatMessage({ message }: { message: Message }) {
         </div>
       </div>
       <div className={cn(
-        "rounded-2xl px-4 py-3 max-w-[80%]",
+        "rounded-2xl p-4 max-w-[80%]",
         isUser ? "bg-teal-300/30 text-primary-foreground shadow-lg shadow-primary/25" : "bg-slate-700/20 text-foreground shadow-md"
       )}>
-        <p className="whitespace-pre-wrap">{message.content}</p>
+        <p>{message.content}</p>
       </div>
     </div>
   )
@@ -241,7 +241,7 @@ function LoadingIndicator() {
           <Sparkles className="w-5 h-5 text-foreground" />
         </div>
       </div>
-      <div className="rounded-2xl p-4 bg-slate-700/20 items-center shadow-md">
+      <div className="rounded-2xl p-4 bg-slate-700/20 shadow-md">
         <div className="flex gap-1 items-center">
           <span className="w-2 h-2 rounded-full bg-amber-100 animate-bounce" style={{ animationDelay: "0ms" }} />
           <span className="w-2 h-2 rounded-full bg-amber-100 animate-bounce" style={{ animationDelay: "150ms" }} />
