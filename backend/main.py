@@ -1,6 +1,7 @@
 # --- Imports ---
 import os
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from ai.ollama import Ollama
 
@@ -16,6 +17,20 @@ class ChatResponse(BaseModel):
 
 # --- App Initialization ---
 app = FastAPI()
+
+# --- CORS Configuration ---
+origins = [
+    "http://localhost:3000",  # Frontend default port
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 

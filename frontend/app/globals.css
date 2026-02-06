@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+:root {
+  --background: #F4F1BB;
+  --foreground: #334139;
+
+  --card: #F4F1BB;
+  --card-foreground: #334139;
+
+  --popover: #F4F1BB;
+  --popover-foreground: #334139;
+
+  --primary: #334139;
+  --primary-foreground: #F4F1BB;
+
+  --secondary: #9BC1BC;
+  --secondary-foreground: #1E2D24;
+
+  --muted: #9BC1BC;
+  --muted-foreground: #334139;
+
+  --accent: #ED6A5A;
+  --accent-foreground: #F4F1BB;
+
+  --destructive: #ED6A5A;
+  --destructive-foreground: #F4F1BB;
+
+  --border: color-mix(in srgb, #334139 20%, transparent);
+  --input: color-mix(in srgb, #334139 15%, transparent);
+  --ring: #ED6A5A;
+
+  --chart-1: #334139;
+  --chart-2: #9BC1BC;
+  --chart-3: #ED6A5A;
+  --chart-4: #1E2D24;
+  --chart-5: #F4F1BB;
+
+  --radius: 0.625rem;
+
+  --sidebar: #F4F1BB;
+  --sidebar-foreground: #334139;
+  --sidebar-primary: #334139;
+  --sidebar-primary-foreground: #F4F1BB;
+  --sidebar-accent: #9BC1BC;
+  --sidebar-accent-foreground: #1E2D24;
+  --sidebar-border: color-mix(in srgb, #334139 20%, transparent);
+  --sidebar-ring: #ED6A5A;
+}
+
+
+.dark {
+  --background: #1E2D24;
+  --foreground: #F4F1BB;
+
+  --card: #f4f1bb57;
+  --card-foreground: #F4F1BB;
+
+  --popover: #1E2D24;
+  --popover-foreground: #F4F1BB;
+
+  --primary: #9BC1BC;
+  --primary-foreground: #1E2D24;
+
+  --secondary: #334139;
+  --secondary-foreground: #F4F1BB;
+
+  --muted: #334139;
+  --muted-foreground: #9BC1BC;
+
+  --accent: #ED6A5A;
+  --accent-foreground: #1E2D24;
+
+  --destructive: #ED6A5A;
+  --destructive-foreground: #1E2D24;
+
+  --border: color-mix(in srgb, #F4F1BB 15%, transparent);
+  --input: color-mix(in srgb, #F4F1BB 10%, transparent);
+  --ring: #ED6A5A;
+
+  --chart-1: #9BC1BC;
+  --chart-2: #F4F1BB;
+  --chart-3: #ED6A5A;
+  --chart-4: #334139;
+  --chart-5: #1E2D24;
+
+  --sidebar: #1E2D24;
+  --sidebar-foreground: #F4F1BB;
+  --sidebar-primary: #9BC1BC;
+  --sidebar-primary-foreground: #1E2D24;
+  --sidebar-accent: #334139;
+  --sidebar-accent-foreground: #F4F1BB;
+  --sidebar-border: color-mix(in srgb, #F4F1BB 15%, transparent);
+  --sidebar-ring: #ED6A5A;
+}
+
+
+
+:root {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  *:focus-visible {
+    outline-color: color-mix(in hsl, var(--color-ring), transparent 50%);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
