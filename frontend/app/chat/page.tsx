@@ -9,6 +9,13 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 // Types for easy customization
 export interface Message {
@@ -22,8 +29,27 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [models, setModels] = useState<string[]>([])
+  const [selectedModel, setSelectedModel] = useState("llama2")
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Fetch available models on component mount
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/models")
+        if (response.ok) {
+          const data = await response.json()
+          setModels(data.models)
+        }
+      } catch (error) {
+        console.error("Error fetching models:", error)
+      }
+    }
+
+    fetchModels()
+  }, [])
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -38,12 +64,25 @@ export default function ChatPage() {
     }
   }, [input])
 
+  // Generate unique ID with fallback for browsers that don't support crypto.randomUUID
+  const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID()
+    }
+    // Fallback method to generate unique ID
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || isLoading) return
 
     const userMessage: Message = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       role: "user",
       content: input.trim(),
       timestamp: new Date(),
@@ -62,6 +101,7 @@ export default function ChatPage() {
         },
         body: JSON.stringify({
           prompt: userMessage.content,
+          model: selectedModel,
         }),
       })
 
@@ -72,7 +112,7 @@ export default function ChatPage() {
       const data = await response.json()
       
       const assistantMessage: Message = {
-        id: crypto.randomUUID(),
+        id: generateId(),
         role: "assistant",
         content: data.response,
         timestamp: new Date(),
@@ -82,7 +122,7 @@ export default function ChatPage() {
     } catch (error) {
       console.error("Error:", error)
       const errorMessage: Message = {
-        id: crypto.randomUUID(),
+        id: generateId(),
         role: "assistant",
         content: "Sorry, I couldn't process your request. Please make sure the backend server is running.",
         timestamp: new Date(),
@@ -176,11 +216,27 @@ export default function ChatPage() {
                 rows={1}
                 className="flex-1 resize-none bg-transparent px-3 py-2 text-foreground placeholder:text-muted-foreground focus:outline-none"
               />
+              <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isLoading}>
+                <SelectTrigger className="w-32 h-9">
+                  <SelectValue placeholder="Model" />
+                </SelectTrigger>
+                <SelectContent>
+                  {models.length > 0 ? (
+                    models.map((model) => (
+                      <SelectItem key={model} value={model}>
+                        {model}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="llama2">llama2</SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
               <Button 
                 type="submit" 
                 size="icon" 
                 disabled={!input.trim() || isLoading}
-                className="shrink-0"
+                className="shrink-0 bg-emerald-400/30"
               >
                 <Send className="w-4 h-4" />
               </Button>
@@ -224,10 +280,10 @@ function ChatMessage({ message }: { message: Message }) {
         </div>
       </div>
       <div className={cn(
-        "rounded-2xl px-4 py-3 max-w-[80%]",
+        "rounded-2xl p-4 max-w-[80%]",
         isUser ? "bg-teal-300/30 text-primary-foreground shadow-lg shadow-primary/25" : "bg-slate-700/20 text-foreground shadow-md"
       )}>
-        <p className="whitespace-pre-wrap">{message.content}</p>
+        <p>{message.content}</p>
       </div>
     </div>
   )
@@ -241,7 +297,7 @@ function LoadingIndicator() {
           <Sparkles className="w-5 h-5 text-foreground" />
         </div>
       </div>
-      <div className="rounded-2xl p-4 bg-slate-700/20 items-center shadow-md">
+      <div className="rounded-2xl p-4 bg-slate-700/20 shadow-md">
         <div className="flex gap-1 items-center">
           <span className="w-2 h-2 rounded-full bg-amber-100 animate-bounce" style={{ animationDelay: "0ms" }} />
           <span className="w-2 h-2 rounded-full bg-amber-100 animate-bounce" style={{ animationDelay: "150ms" }} />

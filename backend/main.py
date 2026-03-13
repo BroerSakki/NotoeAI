@@ -9,6 +9,7 @@ from ai.ollama import Ollama
 # --- Pydantic Models ---
 class ChatRequest(BaseModel):
     prompt: str
+    model: str = "llama2"
 
 class ChatResponse(BaseModel):
     response: str
@@ -62,5 +63,7 @@ async def get_models():
 # Chat
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    response_text = ai_platform.chat(request.prompt)
+    # Create a new Ollama instance with the requested model
+    ai_instance = Ollama(system_prompt=system_prompt, model=request.model)
+    response_text = ai_instance.chat(request.prompt)
     return ChatResponse(response=response_text)
