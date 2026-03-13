@@ -92,7 +92,34 @@ export default function ChatPage() {
     setInput("")
     setIsLoading(true)
 
-      // Call backend API for chat response
+    // Generate context summary if we have previous messages
+    let contextSummary = ""
+    if (messages.length > 0) {
+      try {
+        const response = await fetch("http://localhost:8000/generate-summary", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(
+            messages.map((msg) => ({
+              role: msg.role,
+              content: msg.content,
+            }))
+          ),
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          contextSummary = data.summary
+        }
+      } catch (error) {
+        console.error("Error generating context summary:", error)
+        // Continue without context if summary generation fails
+      }
+    }
+
+    // Call backend API for chat response
     try {
       const response = await fetch("http://localhost:8000/chat", {
         method: "POST",
@@ -102,6 +129,7 @@ export default function ChatPage() {
         body: JSON.stringify({
           prompt: userMessage.content,
           model: selectedModel,
+          context_summary: contextSummary,
         }),
       })
 

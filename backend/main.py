@@ -7,12 +7,18 @@ from ai.ollama import Ollama
 
 
 # --- Pydantic Models ---
+class Message(BaseModel):
+    role: str
+    content: str
+
 class ChatRequest(BaseModel):
     prompt: str
     model: str = "llama2"
+    context_summary: str | None = None
 
 class ChatResponse(BaseModel):
     response: str
+    context_summary: str | None = None
 
 
 
@@ -65,5 +71,18 @@ async def get_models():
 async def chat(request: ChatRequest):
     # Create a new Ollama instance with the requested model
     ai_instance = Ollama(system_prompt=system_prompt, model=request.model)
-    response_text = ai_instance.chat(request.prompt)
+    response_text = ai_instance.chat(request.prompt, request.context_summary)
     return ChatResponse(response=response_text)
+
+# Generate Context Summary
+@app.post("/generate-summary")
+async def generate_summary(messages: list[Message]):
+    """Generate a context summary from conversation history"""
+    # Create a new Ollama instance
+    ai_instance = Ollama(system_prompt=system_prompt)
+    
+    # Convert Message objects to dictionaries
+    message_dicts = [{"role": msg.role, "content": msg.content} for msg in messages]
+    
+    summary = ai_instance.generate_context_summary(message_dicts)
+    return {"summary": summary}
